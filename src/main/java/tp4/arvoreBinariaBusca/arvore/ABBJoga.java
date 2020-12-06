@@ -9,8 +9,19 @@ public class ABBJoga {
         raiz = null;
     }
 
-    public Boolean arvoreVazia() {
-        return this.raiz == null;
+    // Localiza o jogador pelo nome e retorna o caminho percorrido até o encontrar ou não.
+    // Argumentos
+    //    String name -> nome do jogador a ser procurado
+    // Exemplos de entrada e retorno
+    //    Maria ->  Beatriz João Maria SIM
+    //    Mario ->  Beatriz João Maria NÃO
+    public String localizar(String nome) {
+        return localizar(raiz, nome);
+    }
+
+    // Insere o objeto do Jogador na árvore binária de busca e não retorna nada
+    public void inserir(Joga jogadorNovo) {
+        this.raiz = adicionar(this.raiz, jogadorNovo);
     }
 
     private NodoJogador adicionar(NodoJogador raizArvore, Joga jogadorNovo) {
@@ -30,14 +41,6 @@ public class ABBJoga {
             }
         }
         return raizArvore;
-    }
-
-    public void inserir(Joga jogadorNovo) {
-        this.raiz = adicionar(this.raiz, jogadorNovo);
-    }
-
-    public String localizar(String nome) {
-        return localizar(raiz, nome);
     }
 
     private String localizar(NodoJogador raizArvore, String nome) {

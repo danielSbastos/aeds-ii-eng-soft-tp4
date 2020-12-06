@@ -8,6 +8,10 @@ import java.io.*;
 import java.util.Date;
 
 public class Main {
+    // Cria uma árvore binária de busca e insere alguns jogadores definidos pelo stdin.
+    // Depois, procura por jogadores na árvore e imprime o caminho da busca e se o encontrou ou não
+    // Também escreve num arquivo a quantidade de comparações feitas da busca, a duração e
+    // a matrícula de um dos autores
     public static void main(String[] args) throws IOException {
         int qtdLinhas = qtdLinhasArquivo();
         Joga[] todosJogadores = populaJogadores(qtdLinhas);
@@ -42,6 +46,10 @@ public class Main {
         log.fecharArquivo();
     }
 
+    // Lê o arquivo players.csv e para cada linha cria um objeto de Jogador e o adiciona
+    // na lista de jogadores, no final a retornando.
+    // Argumentos:
+    //   int qtd -> quantidade de jogadores que serão criados
     private static Joga[] populaJogadores(int qtd) throws IOException {
         Joga[] jogadores = new Joga[qtd];
 
@@ -59,6 +67,7 @@ public class Main {
         return jogadores;
     }
 
+    // Lê o arquivo players.csv e retorna a quantidade de linhas
     private static int qtdLinhasArquivo() throws IOException {
         File arquivoLeitura = new File("players.csv");
         LineNumberReader linhaLeitura = new LineNumberReader(new FileReader(arquivoLeitura));
@@ -104,4 +113,3 @@ class ArquivoTextoEscrita {
         }
     }
 }
-

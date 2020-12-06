@@ -12,6 +12,7 @@ public class Joga {
 	private String cidadeNascimento;
 	private String estadoNascimento;
 
+	// Cria um jogador com os argumentos
 	public Joga (String nome, int altura, int peso, int anoNascimento, String universidade, String cidadeNascimento, String estadoNascimento) {
 		this.id = 1;
 		this.nome = nome;
@@ -23,6 +24,7 @@ public class Joga {
 		this.estadoNascimento = estadoNascimento;
 	}
 
+	// Cria um jogador com base numa string contendo a informação dele
 	public Joga (String entrada) {
 		int i;
 
@@ -58,26 +60,6 @@ public class Joga {
 		} else {
 			this.setEstadoNascimento(dadosUsuario[7]);
 		}
-	}
-
-	public Joga (String n, int p) {
-		nome = n;
-		peso = p;
-	}
-
-	public Joga () {
-		this.setNome("ROBERTO");
-	}
-
-	public void imprimir() {
-		MyIO.println("## " + this.id + " ## " +
-				this.nome + " ## " +
-				this.altura + " ## " +
-				this.peso +  " ## " +
-				this.anoNascimento + " ## " +
-				this.universidade + " ## " +
-				this.cidadeNascimento + " ## " +
-				this.estadoNascimento + " ## ");
 	}
 
 	public Joga clonar() {
