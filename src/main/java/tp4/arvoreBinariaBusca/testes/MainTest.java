@@ -1,6 +1,6 @@
-package com.tp4.arvoreBinariaBusca.testes;
+package tp4.arvoreBinariaBusca.testes;
 
-import com.tp4.arvoreBinariaBusca.Main;
+import tp4.arvoreBinariaBusca.Main;
 
 import java.io.*;
 

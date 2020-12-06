@@ -1,6 +1,6 @@
-package com.tp4.arvoreBinariaBusca.arvore;
+package tp4.arvoreBinariaBusca.arvore;
 
-import com.tp4.tabelaHashEnderecamentoAberto.MyIO;
+import tp4.tabelaHashEnderecamentoAberto.MyIO;
 
 public class Joga {
 	private int id;

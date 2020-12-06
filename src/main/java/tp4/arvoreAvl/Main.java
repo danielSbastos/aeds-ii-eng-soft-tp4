@@ -1,4 +1,7 @@
-package com.tp4.tabelaHashEnderecamentoAberto;
+package tp4.arvoreAvl;
+
+import tp4.tabelaHashEnderecamentoAberto.MyIO;
+
 import java.io.IOException;
 
 public class Main {

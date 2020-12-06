@@ -1,6 +1,6 @@
-package com.tp4.arvoreAvl;
+package tp4.treeSort;
 
-import com.tp4.tabelaHashEnderecamentoAberto.MyIO;
+import tp4.tabelaHashEnderecamentoAberto.MyIO;
 
 import java.io.IOException;
 

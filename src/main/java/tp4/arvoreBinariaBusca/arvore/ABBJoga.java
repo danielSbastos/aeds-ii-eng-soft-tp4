@@ -1,6 +1,7 @@
-package com.tp4.arvoreBinariaBusca.arvore;
+package tp4.arvoreBinariaBusca.arvore;
 
 public class ABBJoga {
+    public int comparacoes = 0;
 	private NodoJogador raiz;
 
     public ABBJoga()
@@ -13,16 +14,18 @@ public class ABBJoga {
     }
 
     private NodoJogador adicionar(NodoJogador raizArvore, Joga jogadorNovo) {
-        if (raizArvore == null)
+        if (raizArvore == null){
             raizArvore = new NodoJogador(jogadorNovo);
-        else {
+        } else {
             String raizNome = raizArvore.item.getNome();
-            if (raizNome.compareTo(jogadorNovo.getNome()) >= 0)
+            if (raizNome.compareTo(jogadorNovo.getNome()) >= 0) {
                 raizArvore.esquerda = adicionar(raizArvore.esquerda, jogadorNovo);
-            else {
-                if (raizNome.compareTo(jogadorNovo.getNome()) < 0)
+
+            } else {
+                if (raizNome.compareTo(jogadorNovo.getNome()) < 0) {
                     raizArvore.direita = adicionar(raizArvore.direita, jogadorNovo);
-                else
+
+                } else
                     System.out.println("O jogador " + jogadorNovo.getNome() + " já foi inserido anteriormente na árvore.");
             }
         }
@@ -41,12 +44,15 @@ public class ABBJoga {
         String resultado;
 
         if (raizArvore == null) {
+            comparacoes++;
             resultado = "NAO";
         } else {
             String raizNome = raizArvore.item.getNome();
             if (raizNome.compareTo(nome) == 0) {
+                comparacoes++;
                 resultado = nome + " SIM";
             } else if (raizNome.compareTo(nome) < 0) {
+                comparacoes++;
                 resultado = raizNome + " " + localizar(raizArvore.direita, nome);
             } else {
                 resultado = raizNome + " " + localizar(raizArvore.esquerda, nome);
@@ -55,5 +61,4 @@ public class ABBJoga {
 
         return resultado;
     }
-
 }

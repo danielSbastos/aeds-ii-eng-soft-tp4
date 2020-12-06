@@ -1,6 +1,6 @@
-package com.tp4.treeSort;
+package tp4.tabelaHashEnderecamentoSeparado;
 
-import com.tp4.tabelaHashEnderecamentoAberto.MyIO;
+import tp4.tabelaHashEnderecamentoAberto.MyIO;
 
 import java.io.IOException;
 

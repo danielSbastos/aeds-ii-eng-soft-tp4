@@ -1,7 +1,4 @@
-package com.tp4.arvoreBinariaBuscaArvoreBinariaBusca;
-
-import com.tp4.tabelaHashEnderecamentoAberto.MyIO;
-
+package tp4.tabelaHashEnderecamentoAberto;
 import java.io.IOException;
 
 public class Main {

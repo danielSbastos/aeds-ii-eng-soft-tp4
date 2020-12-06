@@ -1,4 +1,4 @@
-package com.tp4.tabelaHashEnderecamentoAberto;
+package tp4.tabelaHashEnderecamentoAberto;
 
 import java.io.*;
 import java.nio.charset.*;

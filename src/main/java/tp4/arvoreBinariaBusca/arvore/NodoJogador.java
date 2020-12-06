@@ -1,4 +1,4 @@
-package com.tp4.arvoreBinariaBusca.arvore;
+package tp4.arvoreBinariaBusca.arvore;
 
 public class NodoJogador {
 
