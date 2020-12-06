@@ -45,7 +45,7 @@ public class Main {
     private static Joga[] populaJogadores(int qtd) throws IOException {
         Joga[] jogadores = new Joga[qtd];
 
-        BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream("/tmp/players.csv")));
+        BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream("players.csv")));
         String linha = null;
         leitor.readLine();
 
@@ -60,7 +60,7 @@ public class Main {
     }
 
     private static int qtdLinhasArquivo() throws IOException {
-        File arquivoLeitura = new File("/tmp/players.csv");
+        File arquivoLeitura = new File("players.csv");
         LineNumberReader linhaLeitura = new LineNumberReader(new FileReader(arquivoLeitura));
         linhaLeitura.skip(arquivoLeitura.length());
         int lineNumber = linhaLeitura.getLineNumber();
