@@ -1,4 +1,4 @@
-//package tp4.arvoreBinariaBusca;
+package tp4.arvoreBinariaBuscaArvoreBinariaBusca;
 
 import java.io.*;
 import java.nio.charset.Charset;
@@ -21,15 +21,16 @@ public class MainVerde {
             entrada = MyIO.readLine();
         }
 
-        ArquivoTextoEscrita log = new ArquivoTextoEscrita();
-        log.abrirArquivo("/tmp/696777_arvoreBinaria.txt");
+        ArquivoTextoEscritaa log = new ArquivoTextoEscritaa();
+        log.abrirArquivo("/tmp/696777_arvoreArvore.txt");
         //log.abrirArquivo("696777_arvoreBinaria.txt");
         Date date = new Date();
         long t1 = date.getTime();
 
         entrada = MyIO.readLine();
         while (!(entrada.equals("FIM"))) {
-            MyIO.println(jogadores.localizar(entrada));
+            int altura = pegaAlturaDeNome(todosJogadores, entrada);
+            MyIO.println(jogadores.localizar(entrada, altura));
             entrada = MyIO.readLine();
         }
 
@@ -40,11 +41,23 @@ public class MainVerde {
         log.fecharArquivo();
     }
 
+    private static int pegaAlturaDeNome(Joga[] jogadores, String nome) {
+        int altura = 0;
+
+        for (int i = 0; i < jogadores.length && altura == 0; i++) {
+            if (jogadores[i].getNome().equals(nome)) {
+                altura = jogadores[i].getAltura();
+            }
+        }
+
+        return altura;
+    }
+
     private static Joga[] populaJogadores(int qtd) throws IOException {
         Joga[] jogadores = new Joga[qtd];
 
-        BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream("/tmp/players.csv")));
         //BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream("players.csv")));
+        BufferedReader leitor = new BufferedReader(new InputStreamReader(new FileInputStream("/tmp/players.csv")));
         String linha = null;
         leitor.readLine();
 
@@ -58,9 +71,10 @@ public class MainVerde {
         return jogadores;
     }
 
+    // Lê o arquivo players.csv e retorna a quantidade de linhas
     private static int qtdLinhasArquivo() throws IOException {
-        File arquivoLeitura = new File("/tmp/players.csv");
         //File arquivoLeitura = new File("players.csv");
+        File arquivoLeitura = new File("/tmp/players.csv");
         LineNumberReader linhaLeitura = new LineNumberReader(new FileReader(arquivoLeitura));
         linhaLeitura.skip(arquivoLeitura.length());
         int lineNumber = linhaLeitura.getLineNumber();
@@ -70,7 +84,7 @@ public class MainVerde {
     }
 }
 
-class ArquivoTextoEscrita {
+class ArquivoTextoEscritaa {
     private BufferedWriter saida;
 
     public void abrirArquivo(String nomeArquivo){
@@ -109,27 +123,49 @@ class ABBJoga {
     public int comparacoes = 0;
     private NodoJogador raiz;
 
-    public ABBJoga()
-    {
+    public ABBJoga() {
         raiz = null;
     }
 
-    public Boolean arvoreVazia() {
-        return this.raiz == null;
+    public String localizar(String nome, int altura) {
+        return localizarPorAltura(raiz, nome, altura);
     }
 
-    private NodoJogador adicionar(NodoJogador raizArvore, Joga jogadorNovo) {
+    public void inserir(Joga jogadorNovo) {
+        this.raiz = inserirPorAltura(this.raiz, jogadorNovo);
+    }
+
+    private NodoJogador inserirPorAltura(NodoJogador raizArvore, Joga jogadorNovo) {
+        if (raizArvore == null) {
+            raizArvore = new NodoJogador(jogadorNovo);
+            raizArvore.arvore.raiz = raizArvore.arvore.inserirPorNome(raizArvore.arvore.raiz, jogadorNovo);
+        } else {
+            int raizAltura = raizArvore.item.getAltura();
+            if ((jogadorNovo.getAltura() % 17) < (raizAltura % 17)) {
+                raizArvore.esquerda = inserirPorAltura(raizArvore.esquerda, jogadorNovo);
+            } else {
+                if ((jogadorNovo.getAltura() % 17) > (raizAltura % 17)) {
+                    raizArvore.direita = inserirPorAltura(raizArvore.direita, jogadorNovo);
+                } else {
+                    raizArvore.arvore.raiz = raizArvore.arvore.inserirPorNome(raizArvore.arvore.raiz, jogadorNovo);
+                }
+            }
+        }
+
+        return raizArvore;
+    }
+
+    private NodoJogador inserirPorNome(NodoJogador raizArvore, Joga jogadorNovo) {
         if (raizArvore == null){
             raizArvore = new NodoJogador(jogadorNovo);
         } else {
             String raizNome = raizArvore.item.getNome();
             if (raizNome.compareTo(jogadorNovo.getNome()) >= 0) {
-                raizArvore.esquerda = adicionar(raizArvore.esquerda, jogadorNovo);
+                raizArvore.esquerda = inserirPorNome(raizArvore.esquerda, jogadorNovo);
 
             } else {
                 if (raizNome.compareTo(jogadorNovo.getNome()) < 0) {
-                    raizArvore.direita = adicionar(raizArvore.direita, jogadorNovo);
-
+                    raizArvore.direita = inserirPorNome(raizArvore.direita, jogadorNovo);
                 } else
                     System.out.println("O jogador " + jogadorNovo.getNome() + " já foi inserido anteriormente na árvore.");
             }
@@ -137,15 +173,26 @@ class ABBJoga {
         return raizArvore;
     }
 
-    public void inserir(Joga jogadorNovo) {
-        this.raiz = adicionar(this.raiz, jogadorNovo);
+    private String localizarPorAltura(NodoJogador raizArvore, String nome, int altura) {
+        String resultado = "";
+
+        if (raizArvore == null) {
+            comparacoes++;
+        } else {
+            int raizAltura = raizArvore.item.getAltura();
+            if ((raizAltura % 17) == (altura % 17)) {
+                resultado = raizAltura % 17 + " " + localizarPorNome(raizArvore.arvore.raiz, nome);
+            } else if ((raizAltura % 17) < (altura % 17)) {
+                resultado = raizAltura % 17 + " " + localizarPorAltura(raizArvore.direita, nome, altura);
+            } else {
+                resultado = raizAltura % 17 + " " + localizarPorAltura(raizArvore.esquerda, nome, altura);
+            }
+        }
+
+        return resultado;
     }
 
-    public String localizar(String nome) {
-        return localizar(raiz, nome);
-    }
-
-    private String localizar(NodoJogador raizArvore, String nome) {
+    private String localizarPorNome(NodoJogador raizArvore, String nome) {
         String resultado;
 
         if (raizArvore == null) {
@@ -154,28 +201,17 @@ class ABBJoga {
         } else {
             String raizNome = raizArvore.item.getNome();
             if (raizNome.compareTo(nome) == 0) {
+                comparacoes++;
                 resultado = nome + " SIM";
             } else if (raizNome.compareTo(nome) < 0) {
-                resultado = raizNome + " " + localizar(raizArvore.direita, nome);
+                comparacoes++;
+                resultado = raizNome + " " + localizarPorNome(raizArvore.direita, nome);
             } else {
-                resultado = raizNome + " " + localizar(raizArvore.esquerda, nome);
+                resultado = raizNome + " " + localizarPorNome(raizArvore.esquerda, nome);
             }
         }
 
         return resultado;
-    }
-}
-
-class NodoJogador {
-
-    Joga item;           // contém os dados do aluno armazenado no nodo da árvore.
-    NodoJogador direita;    // referência ao nodo armazenado, na árvore, à direita do aluno em questão.
-    NodoJogador esquerda;   // referência ao nodo armazenado, na árvore, à esquerda do aluno em questão.
-
-    public NodoJogador(Joga registro) {
-        item = registro;
-        direita = null;
-        esquerda = null;
     }
 }
 
@@ -189,6 +225,7 @@ class Joga {
     private String cidadeNascimento;
     private String estadoNascimento;
 
+    // Cria um jogador com os argumentos
     public Joga (String nome, int altura, int peso, int anoNascimento, String universidade, String cidadeNascimento, String estadoNascimento) {
         this.id = 1;
         this.nome = nome;
@@ -200,6 +237,7 @@ class Joga {
         this.estadoNascimento = estadoNascimento;
     }
 
+    // Cria um jogador com base numa string contendo a informação dele
     public Joga (String entrada) {
         int i;
 
@@ -235,26 +273,6 @@ class Joga {
         } else {
             this.setEstadoNascimento(dadosUsuario[7]);
         }
-    }
-
-    public Joga (String n, int p) {
-        nome = n;
-        peso = p;
-    }
-
-    public Joga () {
-        this.setNome("ROBERTO");
-    }
-
-    public void imprimir() {
-        MyIO.println("## " + this.id + " ## " +
-                this.nome + " ## " +
-                this.altura + " ## " +
-                this.peso +  " ## " +
-                this.anoNascimento + " ## " +
-                this.universidade + " ## " +
-                this.cidadeNascimento + " ## " +
-                this.estadoNascimento + " ## ");
     }
 
     public Joga clonar() {
@@ -334,6 +352,20 @@ class Joga {
     }
 }
 
+class NodoJogador {
+    Joga item;           // contém os dados do jogador armazenado no nodo da árvore.
+    NodoJogador direita;    // referência ao nodo armazenado, na árvore, à direita do jogador em questão.
+    NodoJogador esquerda;   // referência ao nodo armazenado, na árvore, à esquerda do jogador em questão.
+    ABBJoga arvore;
+
+    // Instancia um novo nodo com o jogador
+    public NodoJogador(Joga registro) {
+        item = registro;
+        arvore = new ABBJoga();
+        direita = null;
+        esquerda = null;
+    }
+}
 
 class MyIO {
     private static BufferedReader in = new BufferedReader(new InputStreamReader(System.in, Charset.forName("ISO-8859-1")));
